@@ -1,5 +1,5 @@
 # SFX_Light-sketches #
-----
+--
 This repository holds Arduino sketches which are used to create lighting special effects.
 
 At this time two sketches have been uploaded.  Both use Adafruit PWM (pulse width modulation) driver devices to control multiple LEDs at the same time.

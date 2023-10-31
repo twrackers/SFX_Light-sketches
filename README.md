@@ -18,7 +18,7 @@ This sketch will be used to simulate sunlight glinting off ripples of water in a
 
 The bottom surface of the canal will be painted over with a water-blue translucent glaze to form the rippled water surface.  Embedded below the glaze, lying on the wooden surface, will be 24 randomly placed ice-blue Pico LEDs (the same type being used fo the lighthouse beacon described above).
 
-![](images/canal-module-smaller.jpg)
+![](file:///home/pi/ssd/Pictures/canal-module-smaller.jpg)
 
 The `SunGlitter` sketch will randomly make the LEDs fade from off to on to off again, to give the illusion of a brief glint of sunlight reflecting off the surface in that spot.
 

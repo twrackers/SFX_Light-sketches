@@ -9,7 +9,7 @@
 class Glint : public OneShot {
 
   private:
-    FadeLED_Func* m_glint;
+    FadeLED_Func* m_fader;
     const uint16_t m_pin;
 
   public:

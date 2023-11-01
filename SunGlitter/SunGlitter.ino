@@ -3,13 +3,9 @@
 #include <Adafruit_TLC5947.h>
 #include <SPI.h>
 
-#if defined(LOG)
-#include <Streaming.h>
-#endif
+#undef LOG
 
 #include "Glint.h"
-
-//#define DIM(X) (sizeof(X) / sizeof((X)[0]))
 
 #define NUM_TLC5947 1
 
@@ -21,8 +17,10 @@
 // Maximum for NUM_PWM is (24 * NUM_TLC5947)
 #define NUM_PWM 12
 
+// Driver for PWM interface
 Adafruit_TLC5947 tlc(NUM_TLC5947, CLOCK_PIN, DATA_PIN, LATCH_PIN);
 
+// Pointers to Glint objects (1 per LED)
 Glint* pwm_chans[NUM_PWM];
 
 void setup() {
@@ -31,21 +29,29 @@ void setup() {
   Serial.begin(115200);
   while (!Serial) {}
 #endif
-  
+
+  // Seed the RNG.
   randomSeed(analogRead(A0));
 
+  // Create Glint object for each LED connected to a PWM channel.
   for (byte pin = 0; pin < NUM_PWM; ++pin) {
     pwm_chans[pin] = new Glint(&tlc, pin);
   }
 
+  // Initialize TLC5947 device.
   tlc.begin();
   tlc.write();
-  
+
+  // If OE pin is being used, set it up.
+  // (In this application, it won't be used.)
   if (OE_PIN >= 0) {
     pinMode(OE_PIN, OUTPUT);
     digitalWrite(OE_PIN, LOW);
   }
 
+  // Set up LED_BUILTIN (pin 13).
+  // If logging is enabled, the LED will be on while data is written
+  // to the serial connection.
   pinMode(LED_BUILTIN, OUTPUT);
 #if defined(LOG)
   digitalWrite(LED_BUILTIN, HIGH);
@@ -55,63 +61,76 @@ void setup() {
   
 }
 
+// Outputs will be written to PWM driver every 10 msec.
 StateMachine pacer(10, true);
 
-#define ALGO_1
+// Select switching algorithm, for testing.
+#define ALGO_2
 
+// Average time betwen triggers (msec)
 #define PERIOD 1000
 
-uint32_t prev = 0L;
-uint32_t now;
 #if defined(LOG)
-int count = 1000;
+
+void write_log(const int which) {
+
+  static uint32_t s_prev = 0L;
+  static uint32_t s_now = 0L;
+  static int s_count = 1000;
+  
+  if (s_count) {
+    s_now = millis();
+    if (s_prev) {
+      Serial.print(which);
+      Serial.print(" ");
+      Serial.println(s_now - s_prev);
+    }
+    s_prev = s_now;
+    --s_count;
+  } else {
+    digitalWrite(LED_BUILTIN, LOW);
+  }
+  
+}
+
 #endif
 
 void loop() {
 
 #if defined(ALGO_1)
 
+  // At random, trigger lighting cycle for one PWM channel.
+  // This algorithm calls random() once or twice.
+  
   if (random(PERIOD) == 0L) {
-    pwm_chans[random(NUM_PWM)]->trigger();
+    int which = random(NUM_PWM);
+    pwm_chans[which]->trigger();
 #if defined(LOG)
-    if (count) {
-      now = millis();
-      if (prev) {
-        Serial.println(now - prev);
-      }
-      prev = now;
-      --count;
-    } else {
-      digitalWrite(LED_BUILTIN, LOW);
-    }
+    write_log(which);
 #endif
   }
   
 #elif defined(ALGO_2)
 
+  // At random, trigger lighting cycle for one PWM channel.
+  // This algorithm calls random() once always.
+  
   int which = random(PERIOD * NUM_PWM);
   if (which < NUM_PWM) {
     pwm_chans[which]->trigger();
 #if defined(LOG)
-    if (count) {
-      now = millis();
-      if (prev) {
-        Serial.println(now - prev);
-      }
-      prev = now;
-      --count;
-    } else {
-      digitalWrite(LED_BUILTIN, LOW);
-    }
+    write_log(which);
 #endif
   }
   
 #else
 #error Define ALGO_1 or ALGO_2
 #endif
-  
+
+  // Update output values for all PWM chanels.
   StateMachine::updateAll(pwm_chans, NUM_PWM);
 
+  // Periodically update the PWM driver with output values.
   if (pacer.update()) {
     tlc.write();
   }

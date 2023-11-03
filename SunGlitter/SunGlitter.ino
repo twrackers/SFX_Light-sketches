@@ -3,15 +3,34 @@
 #include <Adafruit_TLC5947.h>
 #include <SPI.h>
 
+#define USE_TRINKET
+
+#if defined(USE_TRINKET)
+
+#include <avr/power.h>
+
 #undef LOG
+
+#endif
 
 #include "Glint.h"
 
 #define NUM_TLC5947 1
 
+#if defined(USE_TRINKET)
+
+#define DATA_PIN 2
+#define CLOCK_PIN 1
+#define LATCH_PIN 0
+
+#else
+
 #define DATA_PIN 4
 #define CLOCK_PIN 5
 #define LATCH_PIN 6
+
+#endif
+
 #define OE_PIN -1
 
 // Maximum for NUM_PWM is (24 * NUM_TLC5947)
@@ -24,6 +43,12 @@ Adafruit_TLC5947 tlc(NUM_TLC5947, CLOCK_PIN, DATA_PIN, LATCH_PIN);
 Glint* pwm_chans[NUM_PWM];
 
 void setup() {
+
+#if defined(USE_TRINKET)
+  if (F_CPU == 16000000L) {
+    clock_prescale_set(clock_div_1);
+  }
+#endif
 
 #if defined(LOG)
   Serial.begin(115200);

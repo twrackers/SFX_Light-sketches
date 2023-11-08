@@ -26,7 +26,6 @@ Adafruit_TLC59711 tlc(NUM_TLC59711);
 
 StateMachine pacer(10, true);
 
-// Tickers trigger PWM in sequence.
 OneLight* lights[NUM_LIGHTS];
 
 void setup()

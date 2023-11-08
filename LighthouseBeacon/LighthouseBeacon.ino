@@ -9,9 +9,6 @@
 
 #define NUM_TLC59711 1
 
-//#define DATA_PIN 5
-//#define CLOCK_PIN 7
-
 // NOTE: Adafruit_TLC5971 library required a patch to the constructor
 // which defaults to the built-in SPI interface.  The library originally
 // set up the SPI interface to use SPI_MODE0, but spurious flickering

@@ -9,7 +9,7 @@
 
 #define NUM_TLC59711 1
 
-// NOTE: Adafruit_TLC5971 library required a patch to the constructor
+// NOTE: Adafruit_TLC59711 library required a patch to the constructor
 // which defaults to the built-in SPI interface.  The library originally
 // set up the SPI interface to use SPI_MODE0, but spurious flickering
 // occurred on channels that were supposed to be at zero output.  Changing

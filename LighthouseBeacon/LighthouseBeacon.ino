@@ -1,20 +1,4 @@
-#include <FadeLED_Func.h>
-#include <OneShot.h>
-
-#define USE_12CH
-
-#if defined(USE_12CH)
-#include <Adafruit_TLC59711.h>
-#elif defined(USE_24CH)
-#include <Adafruit_TLC5947.h>
-#else
-#error Define either USE_12CH or USE_24CH
-#endif
-#include <SPI.h>
-
-#if LOG
-#include <Streaming.h>
-#endif
+#include "OneLight.h"
 
 // This example code drives an array of LEDs simulating a lighthouse.
 //
@@ -23,132 +7,58 @@
 //    https://github.com/twrackers/OneShot-library
 //    https://github.com/twrackers/StateMachine-library
 
-#if defined(USE_12CH)
-
 #define NUM_TLC59711 1
 
-#define data 11
-#define clock 12
+//#define DATA_PIN 5
+//#define CLOCK_PIN 7
 
-Adafruit_TLC59711 tlc(NUM_TLC59711, clock, data);
+// NOTE: Adafruit_TLC5971 library required a patch to the constructor
+// which defaults to the built-in SPI interface.  The library originally
+// set up the SPI interface to use SPI_MODE0, but spurious flickering
+// occurred on channels that were supposed to be at zero output.  Changing
+// the mode to SPI_MODE3 appears to have fixed that.
 
-#elif defined(USE_24CH)
-
-#define NUM_TLC5947 1
-
-#define data 4
-#define clock 5
-#define latch 6
-#define oe -1
-
-Adafruit_TLC5947 tlc(NUM_TLC5947, clock, data, latch);
-
-#endif
+Adafruit_TLC59711 tlc(NUM_TLC59711);
 
 #define NUM_LIGHTS 12
-// PERIOD in milliseconds
+
+// Full rotation period [msec]
 #define PERIOD 4800L
-#define RAMP_UP (PERIOD / NUM_LIGHTS)
-#define RAMP_DN (RAMP_UP)
+// Startup delay after begin() [msec]
+#define WAIT_FOR 1000L
 
 StateMachine pacer(10, true);
 
-#if defined(LOG)
-StateMachine logger(50, true);
-#endif
-
-// Ticker object's `update()` returns `true` once every `m_period`
-// milliseconds, starting when `millis()` reaches `start`.
-class Ticker {
-
-  private:
-    const uint32_t m_period;  // milliseconds between `true` updates
-    uint32_t m_next;          // time of upcoming `true` update
-
-  public:
-    Ticker(const uint32_t period, const uint32_t start) :
-    m_period(period), m_next(start) { }
-
-    bool update() {
-      // If next time has been reached...
-      if (millis() >= m_next) {
-        // ... advance next time by one period interval...
-        m_next += m_period;
-        // ... and return `true`.
-        return true;
-      }
-      // Otherwise, return `false`.
-      return false;
-    }
-    
-};
-
-// `OneShot` objects trigger ramp-up of faders.
-OneShot* oneshots[NUM_LIGHTS];
-// Faders ramp up/down output of PWM channels.
-FadeLED_Func* faders[NUM_LIGHTS];
-// Tickers trigger oneshots.
-Ticker* tickers[NUM_LIGHTS];
+// Tickers trigger PWM in sequence.
+OneLight* lights[NUM_LIGHTS];
 
 void setup()
 {
 
-#if defined(LOG)
-  Serial.begin(115200);
-  while (!Serial) {
-  }
-#endif
+  OneLight::begin(&tlc, NUM_LIGHTS, PERIOD, WAIT_FOR);
 
   // Create objects for PWM channels.
-  for (byte pin = 0; pin < NUM_LIGHTS; ++pin) {
-    faders[pin] = new FadeLED_Func(&tlc, pin, RAMP_UP, RAMP_DN);
-    oneshots[pin] = new OneShot(RAMP_UP, false);
-    tickers[pin] = new Ticker(PERIOD, (1000 + pin * RAMP_UP));
+  for (byte chan = 0; chan < NUM_LIGHTS; ++chan) {
+    lights[chan] = new OneLight(chan);
   }
 
   // Initialize the TLC device.
   tlc.begin();
+  tlc.simpleSetBrightness(127);
   tlc.write();
-
-#if defined(oe)
-  // If /OE pin exists on device, pull it low to enable outputs.
-  if (oe >= 0) {
-    pinMode(oe, OUTPUT);
-    digitalWrite(oe, LOW);
-  }
-#endif
 
 }
 
 void loop()
 {
 
-  // Update all the `OneShot` objects.
-  StateMachine::updateAll(oneshots, NUM_LIGHTS);
-  
   // Set the desired output values.
-#if defined(LOG)
-  logger.update();
-#endif
   if (pacer.update()) {
     
-    for (int i = 0; i < NUM_LIGHTS; ++i) {
-      // `trig` will be `true` on rising fade,
-      // `false otherwise.
-      bool trig = oneshots[i]->isTriggered();
-      // Create non-linear fade.
-      FadeLED_Func* fader = faders[i];
-      double f = fader->get();
-      fader->set(pow(f, 1.5));
-      // Set rising or falling fade, depending on `trig`.
-      fader->write(trig);
-      // Update the fader's state.
-      fader->update();
-      // If ticker updates, trigger matching `OneShot`.
-      if (tickers[i]->update()) {
-        oneshots[i]->trigger();
-      }
+    for (byte chan = 0; chan < NUM_LIGHTS; ++chan) {
+      lights[chan]->update();
     }
+    
     // Update all channels on PWM driver.
     tlc.write();
     

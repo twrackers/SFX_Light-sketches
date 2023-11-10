@@ -20,12 +20,15 @@ void OneLight::begin(Adafruit_TLC59711* tlc,
 
 // Object methods
 
+// Constructor
 OneLight::OneLight(const byte chan) :
 m_oneshot(new OneShot(sm_ramp, false)),
 m_fader(new FadeLED_Func(sm_tlc, chan, sm_ramp, sm_ramp)) {
   m_next = chan * sm_ramp + sm_start;
 }
 
+// Update method
+// @return `true` if it was time to start new light cycle
 bool OneLight::update() {
   
   bool updated = false;

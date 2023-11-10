@@ -6,20 +6,25 @@
 #include <OneShot.h>
 #include <FadeLED_Func.h>
 
+// Uncomment one line to enable or disable serial output
+// for testing.
 #undef LOG
+//#define LOG
 
+// `Glint` object IS A `OneShot` (inherits methods).
+// `Glint` object HAS A `FadeLED_Func` (does not inherit).
 class Glint : public OneShot {
 
   private:
-    FadeLED_Func* m_fader;
-    const uint16_t m_pin;
-    double m_magn;
+    FadeLED_Func* m_fader;  // (pointer to) LED fader
+    const uint16_t m_pin;   // PWM channel on TLC5947
+    double m_magn;          // flash magnitude during cycle
 
   public:
+    // Constructor
     Glint(Adafruit_TLC5947* device, const uint16_t pin);
-      
+    // Overrides of inherited methods
     virtual bool update();
-
     void trigger(const double magn);
   
 };

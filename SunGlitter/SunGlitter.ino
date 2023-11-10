@@ -5,24 +5,26 @@
 
 #include "Glint.h"
 
-#define NUM_TLC5947 1
-
 // GPIO pins are defined for Adafruit Itsy Bitsy 32u4.
 #define DATA_PIN 5
 #define CLOCK_PIN 7
 #define LATCH_PIN 9
 
-// Maximum for NUM_PWM is (24 * NUM_TLC5947)
-#define NUM_PWM 12
+// Number of 24-channel PWM drivers daisy-chained
+#define NUM_TLC5947 1
+
+// Maximum for NUM_PWM is (24 * `NUM_TLC5947`)
+#define NUM_PWM 24
 
 // Driver for PWM interface
 Adafruit_TLC5947 tlc(NUM_TLC5947, CLOCK_PIN, DATA_PIN, LATCH_PIN);
 
-// Pointers to Glint objects (1 per LED)
+// Pointers to `Glint` objects (1 per LED)
 Glint* pwm_chans[NUM_PWM];
 
 void setup() {
 
+// Symbol `LOG` is `#define`d or `#undef`d in `Glint.h`.
 #ifdef LOG
   Serial.begin(115200);
   while (!Serial) {}
@@ -31,7 +33,7 @@ void setup() {
   // Seed the RNG.
   randomSeed(analogRead(A0));
 
-  // Create Glint object for each LED connected to a PWM channel.
+  // Create `Glint` object for each LED connected to a PWM channel.
   for (byte pin = 0; pin < NUM_PWM; ++pin) {
     pwm_chans[pin] = new Glint(&tlc, pin);
   }
@@ -54,11 +56,16 @@ Pulse activ(LED_BUILTIN, 3);
 
 void loop() {
 
-  // At random, trigger lighting cycle for one PWM channel.
+  // Try to choose a random PWM channel.
   int which = random(PERIOD * NUM_PWM);
+  // Amplitude of PWM flash will also be random, from 15%
+  // to 100% full-on.
   uint32_t magn = random(15, 101);
+  // If an existing PWM channel is chosen...
   if (which < NUM_PWM) {
+    // ... trigger lighting cycle for that channel.
     pwm_chans[which]->trigger((double) (magn * magn) / 10000.0);
+    // Trigger a flash of the built-in LED too.
     activ.trigger();
   }
   

@@ -4,7 +4,6 @@
 #include <Adafruit_TLC5947.h>
 
 #include "Glint.h"
-#include "Ring.h"
 
 // GPIO pins are defined for Adafruit Itsy Bitsy 32u4.
 #define DATA_PIN 5
@@ -26,10 +25,10 @@ Glint* pwm_chans[NUM_PWM];
 void setup() {
 
 // Symbol `LOG` is `#define`d or `#undef`d in `Glint.h`.
-//#ifdef LOG
+#ifdef LOG
   Serial.begin(115200);
   while (!Serial) {}
-//#endif
+#endif
 
   // Seed the RNG.
   randomSeed(analogRead(A0));
@@ -46,7 +45,7 @@ void setup() {
 }
 
 // Average time between PWM triggers (msec)
-#define PERIOD 200
+#define PERIOD 750
 
 #define MMIN 500
 #define MMAX 1000
@@ -55,23 +54,17 @@ void setup() {
 #define NON_REAL_TIME false
 
 // Triggers to PWM cycles
-StateMachine pwm_pacer(5, REAL_TIME);
+StateMachine pwm_pacer(1, REAL_TIME);
 
-// Outputs will be written to PWM driver every ?? msec.
-StateMachine out_pacer(33, REAL_TIME);
+// Outputs will be written to PWM driver every 25 msec.
+StateMachine out_pacer(25, REAL_TIME);
 
 // Built-in LED will flash when a PWM is triggered.
 Pulse activ(LED_BUILTIN, 3);
 
-Ring smoother(15);
-int count = 0;
-bool first_time = true;
-
-StateMachine logger(1000, REAL_TIME);
-
 void loop() {
   
-  if (true) {
+  if (pwm_pacer.update()) {
     // Try to choose a random PWM channel.
     int which = random(PERIOD * NUM_PWM);
     // If an existing PWM channel is chosen...
@@ -98,15 +91,5 @@ void loop() {
 
   // Update LED_BUILTIN flasher.
   activ.update();  
-
-  if (logger.update()) {
-    if (!first_time) {
-      Serial.println(smoother.update(count));
-    } else {
-      first_time = false;
-    }
-    count = 0;
-  }
-  ++count;
   
 }

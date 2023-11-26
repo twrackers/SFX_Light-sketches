@@ -47,9 +47,6 @@ void Glint::trigger(const double magn) {
   // and trigger one-shot parent object.
   if (m_fader->isOff()) {
     m_magn = min(magn, 1.0);
-#ifdef LOG
-    Serial.println(m_magn * 100.0);
-#endif
     OneShot::trigger();
   }
   

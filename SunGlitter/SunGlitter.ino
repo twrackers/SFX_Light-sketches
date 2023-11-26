@@ -24,12 +24,6 @@ Glint* pwm_chans[NUM_PWM];
 
 void setup() {
 
-// Symbol `LOG` is `#define`d or `#undef`d in `Glint.h`.
-#ifdef LOG
-  Serial.begin(115200);
-  while (!Serial) {}
-#endif
-
   // Seed the RNG.
   randomSeed(analogRead(A0));
 
@@ -70,7 +64,7 @@ void loop() {
     // If an existing PWM channel is chosen...
     if (which < NUM_PWM) {
       // ... trigger lighting cycle for that channel.
-      // Amplitude of PWM flash will be random, from about 10%
+      // Amplitude of PWM flash will be random, from about 6%
       // to 100% full-on.
       uint32_t magn = random(MMIN, MMAX + 1);
       pwm_chans[which]->trigger(pow((double) magn / (double) MMAX, 4.0));

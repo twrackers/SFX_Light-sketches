@@ -6,11 +6,6 @@
 #include <OneShot.h>
 #include <FadeLED_Func.h>
 
-// Uncomment one line to enable or disable serial output
-// for testing.
-#undef LOG
-//#define LOG
-
 // `Glint` object IS A `OneShot` (inherits methods).
 // `Glint` object HAS A `FadeLED_Func` (does not inherit).
 class Glint : public OneShot {

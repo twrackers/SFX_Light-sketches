@@ -10,7 +10,7 @@
 // Number of 12-channel PWM drivers daisy-chained
 #define NUM_TLC59711 1
 
-// Maximum for NUM_PWM is (12 * `NUM_TLC59711`)
+// Maximum for NUM_LIGHTS is (12 * `NUM_TLC59711`)
 #define NUM_LIGHTS 12
 
 // NOTE: Adafruit_TLC59711 library required a patch to the constructor

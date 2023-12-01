@@ -11,7 +11,8 @@
 Glint::Glint(Adafruit_TLC5947* device, const uint16_t pin) : 
   OneShot(TIME_ON, false),
   m_fader(new FadeLED_Func(device, pin, TIME_ON, TIME_OFF)),
-  m_pin(pin), m_magn(0.0) {}
+  m_magn(0.0) {
+  }
 
 // Update method
 // @return `true` if fader object updated, `false` otherwise

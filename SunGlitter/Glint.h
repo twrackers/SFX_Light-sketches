@@ -12,7 +12,6 @@ class Glint : public OneShot {
 
   private:
     FadeLED_Func* m_fader;  // (pointer to) LED fader
-    const uint16_t m_pin;   // PWM channel on TLC5947
     double m_magn;          // flash magnitude during cycle
 
   public:

@@ -4,6 +4,7 @@
 #include <Adafruit_TLC5947.h>
 
 #include "Glint.h"
+#include "RNG.h"
 
 // GPIO pins are defined for Adafruit Itsy Bitsy 32u4.
 #define DATA_PIN 5
@@ -22,10 +23,14 @@ Adafruit_TLC5947 tlc(NUM_TLC5947, CLOCK_PIN, DATA_PIN, LATCH_PIN);
 // Pointers to `Glint` objects (1 per LED)
 Glint* pwm_chans[NUM_PWM];
 
+RNG rand_pwm;
+RNG rand_magn;
+
 void setup() {
 
-  // Seed the RNG.
-  randomSeed(analogRead(A0));
+  // Seed the RNGs.
+  rand_pwm.seed(analogRead(A0));
+  rand_magn.seed(analogRead(A1));
 
   // Create `Glint` object for each LED connected to a PWM channel.
   for (byte pin = 0; pin < NUM_PWM; ++pin) {
@@ -60,13 +65,13 @@ void loop() {
   
   if (pwm_pacer.update()) {
     // Try to choose a random PWM channel.
-    int which = random(PERIOD * NUM_PWM);
+    int which = rand_pwm.random(PERIOD * NUM_PWM);
     // If an existing PWM channel is chosen...
     if (which < NUM_PWM) {
       // ... trigger lighting cycle for that channel.
       // Amplitude of PWM flash will be random, from about 6%
       // to 100% full-on.
-      uint32_t magn = random(MMIN, MMAX + 1);
+      uint32_t magn = rand_magn.random(MMIN, MMAX + 1);
       pwm_chans[which]->trigger(pow((double) magn / (double) MMAX, 4.0));
       // Trigger a flash of the built-in LED too.
       activ.trigger();

@@ -1,5 +1,6 @@
 #include "RNG.h"
 
+// Linear convergence generator code from Wikipedia article
 uint32_t lcg_parkmiller(uint32_t* state) {
   
   // Precomputed parameters for Schrage's method
@@ -22,28 +23,26 @@ uint32_t lcg_parkmiller(uint32_t* state) {
   
 }
 
+// Constructor
 RNG::RNG() {
 }
 
+// Seed the generator
 void RNG::seed(const uint32_t x) {
-
-  m_state = x;
-  
+  m_state = x;  
 }
 
+// Return random value, full range
 uint32_t RNG::random() {
-
   return lcg_parkmiller(&m_state);
-  
 }
 
+// Return random value between 0 and maximum (exclusive)
 uint32_t RNG::random(const uint32_t mx) {
-
   return random() % mx;
 }
 
+// Return random value between minimum (includive) and maximum (exclusive)
 uint32_t RNG::random(const uint32_t mn, const uint32_t mx) {
-
   return random() % (mx - mn) + mn;
-  
 }

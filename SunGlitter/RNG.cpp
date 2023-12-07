@@ -1,6 +1,7 @@
 #include "RNG.h"
 
-// Linear convergence generator code from Wikipedia article
+// Linear congruential generator code from Wikipedia article
+// https://en.wikipedia.org/wiki/Lehmer_random_number_generator#Sample_C99_code
 uint32_t lcg_parkmiller(uint32_t* state) {
   
   // Precomputed parameters for Schrage's method

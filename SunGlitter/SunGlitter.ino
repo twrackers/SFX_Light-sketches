@@ -7,6 +7,8 @@
 #include "RNG.h"
 
 // GPIO pins are defined for Adafruit Itsy Bitsy 32u4.
+// Adafruit TLC5947 doesn't appear to be compatible with Arduino
+// hardware SPI, so bit-banging library must be used instead.
 #define DATA_PIN 5
 #define CLOCK_PIN 7
 #define LATCH_PIN 9

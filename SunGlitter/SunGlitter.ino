@@ -1,7 +1,7 @@
 #include <StateMachine.h>
 #include <Pulse.h>
 
-#include <Adafruit_TLC5947.h>
+//#include <Adafruit_TLC5947.h>
 
 #include "Glint.h"
 #include "RNG.h"

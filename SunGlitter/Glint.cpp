@@ -1,6 +1,3 @@
-#include <OneShot.h>
-#include <FadeLED_Func.h>
-
 #include "Glint.h"
 
 // Use symmetric rise and fall curves.

@@ -13,6 +13,16 @@ The LEDs have thin wires (30 gauge?) which should be long enough to reach to the
 
 To simulate the rotating lighthouse light, the PWM driver will be used to illuminate the LEDs in sequence around their mount, with each LED fading from off to full on to off again in about 0.8 second.  Each LED will be timed to begin turning on at the moment the one before reaches full-on, which means it will be fully on when the prior goes fully off.  From a distance, this should give the illusion of a light of more-or-less constant brightness rotating once roughly every 5 seconds.
 
+### Dependencies ###
+
+The `LighthouseBeacon` sketch depends on the following libraries.
+
+* SPI (bundled with Arduino IDE)
+* [Adafruit_TLC59711](https://github.com/adafruit/Adafruit_TLC59711/)
+* [OneShot](https://github.com/twrackers/OneShot-library) (in my GitHub)
+* [FadeLED](https://github.com/twrackers/FadeLED-library) (in my GitHub)
+* [StateMachine](https://github.com/twrackers/StateMachine-library) (in my GitHub)
+
 ## SunGlitter ##
 This sketch will be used to simulate sunlight glinting off ripples of water in a canal.  The canal is being built in a [single-width T-TRAK module](https://klawndyke.com/catalog/index.php?main_page=product_info&cPath=4&products_id=20) from [Klawndyke's](https://klawndyke.com/catalog/) (Des Moines, Iowa, USA).  So far I have added KATO Unitrack, a 3D-printed deck bridge (model provided by Klawndyke's), and 3D-printed "stone" walls (models created by myself using Autodesk Fusion 360).
 
@@ -21,3 +31,13 @@ The bottom surface of the canal will be painted over with a water-blue transluce
 ![](images/canal-module-smaller.jpg)
 
 The `SunGlitter` sketch will randomly make the LEDs fade from off to on (with random peak brightness) to off again, to give the illusion of a brief glint of sunlight reflecting off the surface in that spot.  The LEDs will be driven by an [Adafruit 24-channel 12-bit PWM LED Driver](https://www.adafruit.com/product/1429), again connected by SPI to an Itsy Bitsy 32u4 board.
+
+### Dependencies ###
+
+The `SunGlitter` sketch depends on the following libraries.
+
+* [Adafruit_TLC5947](https://github.com/adafruit/Adafruit_TLC5947)
+* [Pulse](https://github.com/twrackers/Pulse-library) (in my GitHub)
+* [OneShot](https://github.com/twrackers/OneShot-library) (in my GitHub)
+* [FadeLED](https://github.com/twrackers/FadeLED-library) (in my GitHub)
+* [StateMachine](https://github.com/twrackers/StateMachine-library) (in my GitHub)

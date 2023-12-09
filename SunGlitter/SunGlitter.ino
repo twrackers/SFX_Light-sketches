@@ -1,6 +1,7 @@
 #include <StateMachine.h>
 #include <Pulse.h>
 
+#include "Prime.h"
 #include "Glint.h"
 #include "RNG.h"
 
@@ -32,8 +33,8 @@ RNG rand_magn;     // to select a random brightness of a flash
 void setup() {
 
   // Seed the RNGs.
-  rand_pwm.seed(analogRead(A0));
-  rand_magn.seed(analogRead(A1));
+  rand_pwm.seed(find_random_prime(0x1000000));
+  rand_magn.seed(find_random_prime(0x1000000));
 
   // Create `Glint` object for each LED connected to a PWM channel.
   for (byte pin = 0; pin < NUM_PWM; ++pin) {

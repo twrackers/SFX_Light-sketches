@@ -12,11 +12,7 @@ uint32_t isqrt(const uint32_t y) {
 
   uint32_t sm = isqrt(y >> 2) << 1;
   uint32_t lg = sm + 1;
-  if ((lg * lg) > y) {
-    return sm;
-  } else {
-    return lg;
-  }
+  return ((lg * lg) > y) ? sm : lg;
   
 }
 

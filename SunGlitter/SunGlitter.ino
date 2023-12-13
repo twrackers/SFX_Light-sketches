@@ -33,8 +33,8 @@ RNG rand_magn;     // to select a random brightness of a flash
 void setup() {
 
   // Seed the RNGs.
-  rand_pwm.seed(find_random_prime(0x1000000));
-  rand_magn.seed(find_random_prime(0x1000000));
+  rand_pwm.seed(find_random_prime(0x10000));
+  rand_magn.seed(find_random_prime(0x10000));
 
   // Create `Glint` object for each LED connected to a PWM channel.
   for (byte pin = 0; pin < NUM_PWM; ++pin) {
@@ -76,7 +76,7 @@ void loop() {
       // Amplitude of PWM flash will be random, from about 6%
       // to 100% full-on.
       uint32_t magn = rand_magn.random(MMIN, MMAX + 1);
-      pwm_chans[which]->trigger(pow((double) magn / (double) MMAX, 4.0));
+      pwm_chans[which]->trigger(pow((double) magn / (double) MMAX, 5.0));
       // Trigger a flash of the built-in LED too.
       activ.trigger();
     }

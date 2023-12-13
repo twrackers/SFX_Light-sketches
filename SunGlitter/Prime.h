@@ -4,6 +4,22 @@
 #include <math.h>
 #include <stdint.h>
 
+uint32_t isqrt(const uint32_t y) {
+
+  if (y < 2) {
+    return y;
+  }
+
+  uint32_t sm = isqrt(y >> 2) << 1;
+  uint32_t lg = sm + 1;
+  if ((lg * lg) > y) {
+    return sm;
+  } else {
+    return lg;
+  }
+  
+}
+
 bool is_prime(const uint32_t val) {
   
   static bool seeded = false;
@@ -18,7 +34,7 @@ bool is_prime(const uint32_t val) {
   } else if (val < 2 || (val % 2) == 0) {
     return false;
   } else {
-    uint32_t m = (uint32_t) sqrt((double) val);
+    uint32_t m = isqrt(val);
     for (uint32_t t = 3; t <= m; t += 2) {
       if (val % t == 0) return false;
     }

@@ -73,7 +73,7 @@ void loop() {
     // If an existing PWM channel is chosen...
     if (which < NUM_PWM) {
       // ... trigger lighting cycle for that channel.
-      // Amplitude of PWM flash will be random, from about 6%
+      // Amplitude of PWM flash will be random, from <10%
       // to 100% full-on.
       uint32_t magn = rand_magn.random(MMIN, MMAX + 1);
       pwm_chans[which]->trigger(pow((double) magn / (double) MMAX, 5.0));

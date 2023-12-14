@@ -26,7 +26,8 @@ Adafruit_TLC59711 tlc(NUM_TLC59711);
 OneLight* lights[NUM_LIGHTS];
 
 // Full rotation period [msec]
-#define PERIOD 4800L
+// Should be multiple of NUM_LIGHTS close to 5000 msec.
+#define PERIOD 4992L
 // Startup delay after begin() [msec]
 #define WAIT_FOR 1000L
 

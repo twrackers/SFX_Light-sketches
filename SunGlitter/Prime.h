@@ -44,6 +44,7 @@ bool is_prime(const uint32_t y) {
   
 }
 
+// Find a random prime number less than given value.
 uint32_t find_random_prime(const uint32_t mx) {
   
   static bool seeded = false;

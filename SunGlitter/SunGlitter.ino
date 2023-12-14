@@ -81,6 +81,9 @@ void loop() {
       activ.trigger();
     }
   }
+
+  // Update LED_BUILTIN flasher.
+  activ.update();  
   
   // Update output values for all PWM chanels.
   StateMachine::updateAll(pwm_chans, NUM_PWM);
@@ -91,8 +94,5 @@ void loop() {
   if (out_pacer.update()) {
     tlc.write();
   }
-
-  // Update LED_BUILTIN flasher.
-  activ.update();  
   
 }

@@ -18,13 +18,6 @@ uint32_t isqrt(const uint32_t y) {
 
 bool is_prime(const uint32_t val) {
   
-  static bool seeded = false;
-  
-  if (!seeded) {
-    randomSeed(analogRead(A0));
-    seeded = true;
-  }
-  
   if (val == 2) {
     return true;
   } else if (val < 2 || (val % 2) == 0) {
@@ -40,11 +33,20 @@ bool is_prime(const uint32_t val) {
 }
 
 uint32_t find_random_prime(const uint32_t mx) {
+  
+  static bool seeded = false;
+  
+  if (!seeded) {
+    randomSeed(analogRead(A0));
+    seeded = true;
+  }
+  
   uint32_t t;
   do {
     t = random(mx);
   } while (!is_prime(t));
   return t;
+  
 }
 
 #endif

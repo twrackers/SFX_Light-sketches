@@ -50,9 +50,12 @@ void setup() {
 // Average time between PWM triggers (msec)
 #define PERIOD 750
 
+// Range of random magnitudes of flashes [MMIN, MMAX)
+// in per mille (parts per thousand)
 #define MMIN 500
 #define MMAX 1000
 
+// Symbols for booleans
 #define REAL_TIME true
 #define NON_REAL_TIME false
 

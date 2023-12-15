@@ -4,8 +4,10 @@
 #include <math.h>
 #include <stdint.h>
 
-// Calculate largest integer less than or equal
-// to square root of value.
+// Calculate largest integer less than or
+// equal to square root of value.
+// @param y integer value for which to estimate square root
+// @return integer equivalent to floor(sqrt(y))
 uint32_t isqrt(const uint32_t y) {
 
   // Square roots of 0 or 1 are 0 and 1 respectivey.
@@ -23,6 +25,8 @@ uint32_t isqrt(const uint32_t y) {
 }
 
 // Determine if value is prime.
+// @param y integer value to be tested
+// @return true if y is prime, false otherise
 bool is_prime(const uint32_t y) {
   
   if (y == 2) {
@@ -45,6 +49,10 @@ bool is_prime(const uint32_t y) {
 }
 
 // Find a random prime number less than given value.
+// Ranom number generator is seeded the first time
+// `find_random_prime` is called.
+// @param mx maximum value (exclusive) or returned value
+// @return randomly selected prime number in range [0,mx)
 uint32_t find_random_prime(const uint32_t mx) {
   
   static bool seeded = false;

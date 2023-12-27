@@ -49,9 +49,9 @@ bool is_prime(const uint32_t y) {
 }
 
 // Find a random prime number less than given value.
-// Ranom number generator is seeded the first time
+// Random number generator is seeded the first time
 // `find_random_prime` is called.
-// @param mx maximum value (exclusive) or returned value
+// @param mx maximum value (exclusive) for returned value
 // @return randomly selected prime number in range [0,mx)
 uint32_t find_random_prime(const uint32_t mx) {
   

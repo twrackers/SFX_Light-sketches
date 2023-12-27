@@ -40,10 +40,10 @@ uint32_t RNG::random() {
 
 // Return random value between 0 and maximum (exclusive)
 uint32_t RNG::random(const uint32_t mx) {
-  return random() % mx;
+  return this->random() % mx;
 }
 
 // Return random value between minimum (includive) and maximum (exclusive)
 uint32_t RNG::random(const uint32_t mn, const uint32_t mx) {
-  return random() % (mx - mn) + mn;
+  return this->random() % (mx - mn) + mn;
 }

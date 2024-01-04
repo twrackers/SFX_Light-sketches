@@ -36,7 +36,7 @@ bool is_prime(const uint32_t y) {
     // 0, 1, and all even numbers > 2 are NOT prime.
     return false;
   } else {
-    // Only need to test odd values from 3 up to sqrt(y)
+    // Only need to test odd values from 3 up to isqrt(y)
     uint32_t m = isqrt(y);
     for (uint32_t t = 3; t <= m; t += 2) {
       // Not prime if t divides evenly into y.

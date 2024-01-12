@@ -66,7 +66,9 @@ StateMachine pwm_pacer(1, REAL_TIME);
 StateMachine out_pacer(25, REAL_TIME);
 
 // Built-in LED will flash when a PWM is triggered.
-Pulse activ(LED_BUILTIN, 3);
+// A `Pulse` object has a `OneShot` member object
+// which is retriggerable.
+Pulse activ(LED_BUILTIN, 5);
 
 void loop() {
   

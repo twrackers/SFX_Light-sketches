@@ -10,7 +10,7 @@
 // @return integer equivalent to floor(sqrt(y))
 uint32_t isqrt(const uint32_t y) {
 
-  // Square roots of 0 or 1 are 0 and 1 respectivey.
+  // Square roots of 0 or 1 are 0 and 1 respectively.
   if (y < 2) {
     return y;
   }
@@ -50,7 +50,7 @@ bool is_prime(const uint32_t y) {
 
 // Find a random prime number less than given value.
 // Random number generator is seeded the first time
-// `find_random_prime` is called.
+// this function is called.
 // @param mx maximum value (exclusive) for returned value
 // @return randomly selected prime number in range [0,mx)
 uint32_t find_random_prime(const uint32_t mx) {
@@ -63,7 +63,7 @@ uint32_t find_random_prime(const uint32_t mx) {
     seeded = true;
   }
 
-  // Test random values unti one that's prime is found.
+  // Test random values until one that's prime is found.
   uint32_t t;
   do {
     t = random(mx);

@@ -21,25 +21,20 @@ class NightStrobe : public OneShot {
   public:
 
     NightStrobe() : OneShot(NIGHT_RAMP_UP + NIGHT_FULL_ON, false) {
-
       m_led = new FadeLED_Lin(NIGHT_STROBE,
                               NIGHT_RAMP_UP, NIGHT_RAMP_DOWN,
                               ACTIVE_LOW);
     }
 
     bool update() {
-
       if (OneShot::update()) {
         m_led->write(OneShot::isTriggered());
       }
       m_led->update();
-      
     }
 
     void trigger() {
-
       OneShot::trigger();
-      
     }
   
 };

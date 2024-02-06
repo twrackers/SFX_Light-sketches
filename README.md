@@ -45,7 +45,7 @@ The `SunGlitter` sketch depends on the following libraries.
 ## TowerStrobes ##
 This sketch is written to simulate the daytime and nighttime strobes that appear on many tall buildings in Japan, and some in the US as well.  During daylight hours, buildings may have one or more white strobe lights flashing once every 1.5 seconds, while at night the buildings are marked with red lights which are mostly on but dim to nearly off and back on again at about the same rate of 1.5 seconds per cycle.
 
-The sketch is originally written to run on an [Adafruit GEMMA v2](https://www.adafruit.com/product/1222adafruit.com/product/1222) which has only 3 GPIO pins.
+The sketch is originally written to run on an [Adafruit GEMMA v2](https://www.adafruit.com/product/1222) which has only 3 GPIO pins.
 
 * Pin D0 is used as a PWM output pin to drive red LEDs when the sketch is running in nighttime mode.
 * Pin D1 is used as a digital output pin (although it does support PWM as well) to drive white LEDs when the sketch is running in daytime mode.

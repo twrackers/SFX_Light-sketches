@@ -2,7 +2,7 @@
 
 This repository holds Arduino sketches which are used to create lighting special effects.
 
-At this time two sketches have been uploaded.  Both use Adafruit PWM (pulse width modulation) driver devices to control multiple LEDs at the same time.  Both are also written to run on the [Adafruit Itsy Bitsy 32u4 (5V 16MHz version)](https://www.adafruit.com/product/3677) microcontroller.
+At this time three sketches have been uploaded.  The first two below use Adafruit PWM (pulse width modulation) driver devices to control multiple LEDs at the same time.  Both are also written to run on the [Adafruit Itsy Bitsy 32u4 (5V 16MHz version)](https://www.adafruit.com/product/3677) microcontroller.  The third, `TowerStrobes`, is written for the [Adafruit GEMMA v2](https://www.adafruit.com/product/1222adafruit.com/product/1222) and will drive LEDs directly with Darlington transistor drivers.
 
 ## LighthouseBeacon ##
 This sketch will be used to create the "rotating" beacon at the top of a lighthouse.  The lighthouse itself is an N-scale (1:160 scale) model which was designed to hold a simple grain-of-rice incandescent bulb with no driving electronics.  I plan to replace that bulb with a small 3D-printed piece which will have 12 white [Pico LEDs](https://evandesigns.com/products/chip-nano-pico-leds?variant=39985935646768) from [Evan Designs](https://evandesigns.com/) (Fort Collins, Colorado, USA) mounted around its tip.
@@ -54,3 +54,13 @@ The sketch is originally written to run on an [Adafruit GEMMA v2](https://www.ad
 The first building in which I plan to install the GEMMA will have 4 red and 4 white LEDs on its roof.  To drive the LEDs, pins D0 and D1 will each connect to 4 input pins of an 8-channel [ULN2803A Darlington transistor array](https://www.sparkfun.com/datasheets/IC/uln2803a.pdf).  Each output pin will connect to the cathode terminal of an LED, with all anodes tied to the GEMMA's 3v3 terminal.  Each of the groups of 4 LEDs, red and white, will light together.
 
 Because pin D2 can be used as analog input A1, a future version of this design might use an analog signal, say from a capacitive touch sensor or a light-level sensor, to switch between daytime and nighttime modes.
+
+### Dependencies ###
+
+The `TowerStrobes` sketch depends on the following libraries.
+
+* [Pulse](https://github.com/twrackers/Pulse-library) (in my GitHub)
+* [OneShot](https://github.com/twrackers/OneShot-library) (in my GitHub)
+* [FadeLED](https://github.com/twrackers/FadeLED-library) (in my GitHub)
+* [StateMachine](https://github.com/twrackers/StateMachine-library) (in my GitHub)
+

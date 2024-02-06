@@ -41,3 +41,16 @@ The `SunGlitter` sketch depends on the following libraries.
 * [OneShot](https://github.com/twrackers/OneShot-library) (in my GitHub)
 * [FadeLED](https://github.com/twrackers/FadeLED-library) (in my GitHub)
 * [StateMachine](https://github.com/twrackers/StateMachine-library) (in my GitHub)
+
+## TowerStrobes_Sync ##
+This sketch is written to simulate the daytime and nighttime strobes that appear on many tall buildings in Japan, and some in the US as well.  During daylight hours, buildings may have one or more white strobe lights flashing once every 1.5 seconds, while at night the buildings are marked with red lights which are mostly on but dim to nearly off and back on again at about the same rate of 1.5 seconds per cycle.
+
+The sketch is originally written to run on an [Adafruit GEMMA v2](https://www.adafruit.com/product/1222adafruit.com/product/1222) which has only 3 GPIO pins.
+
+* Pin D0 is used as a PWM output pin to drive red LEDs when the sketch is running in nighttime mode.
+* Pin D1 is used as a digital output pin (although it does support PWM as well) to drive white LEDs when the sketch is running in daytime mode.
+* Pin D2 (which doubles as analog input A1) is currently used as a digital INPUT_PULLUP pin.  When the pin is pulled up (or left unconnected), the sketch runs in daytime mode.  Pulling the pin to GND switches the sketch to nighttime mode.
+
+The first building I will use will have 4 red and 4 white LEDs on its roof.  To drive the LEDs, pins D0 and D1 will each connect to 4 input pins of an 8-channel [ULN2803A Darlington transistor array](https://www.sparkfun.com/datasheets/IC/uln2803a.pdf).  Each Darlington transistor will connect to an LED in pull-down mode, so all red LEDs will light together, and all white LEDs will do the same.
+
+Because pin D2 can be used as analog input A1, a future version might use an analog signal to switch between daytime and nighttime, say from a capacitive touch sensor or a light-level sensor.

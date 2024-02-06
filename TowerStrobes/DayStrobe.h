@@ -6,7 +6,7 @@
 #include "GPIOs.h"
 
 // Day strobe on time (msec)
-#define DAY_ON 40
+#define DAY_ON 5
 
 class DayStrobe : public Pulse {
 

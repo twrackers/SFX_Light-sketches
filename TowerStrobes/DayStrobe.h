@@ -6,21 +6,13 @@
 #include "GPIOs.h"
 
 // Day strobe on time (msec)
-#define DAY_ON 5
+#define DAY_ON 10
 
 class DayStrobe : public Pulse {
 
   public:
   
     DayStrobe() : Pulse(DAY_STROBE, LIGHT_ON, DAY_ON) {
-    }
-
-    bool update() {
-      return Pulse::update();
-    }
-
-    void trigger() {
-      Pulse::trigger();
     }
     
 };

@@ -32,10 +32,6 @@ class NightStrobe : public OneShot {
       }
       m_led->update();
     }
-
-    void trigger() {
-      OneShot::trigger();
-    }
   
 };
 

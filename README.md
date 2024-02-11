@@ -2,7 +2,7 @@
 
 This repository holds Arduino sketches which are used to create lighting special effects.
 
-At this time three sketches have been uploaded.  The first two below use Adafruit PWM (pulse width modulation) driver devices to control multiple LEDs at the same time.  Both are also written to run on the [Adafruit Itsy Bitsy 32u4 (5V 16MHz version)](https://www.adafruit.com/product/3677) microcontroller.  The third, `TowerStrobes`, is written for the [Adafruit GEMMA v2](https://www.adafruit.com/product/1222adafruit.com/product/1222) and will drive LEDs directly with Darlington transistor drivers.
+At this time four sketches have been uploaded.  The first two below use Adafruit PWM (pulse width modulation) driver devices to control multiple LEDs at the same time.  Both are also written to run on the [Adafruit Itsy Bitsy 32u4 (5V 16MHz version)](https://www.adafruit.com/product/3677) microcontroller.  The third, `TowerStrobes`, is written for the [Adafruit GEMMA v2](https://www.adafruit.com/product/1222adafruit.com/product/1222) and will drive LEDs directly with Darlington transistor drivers.  The fourth, `TowerStrobes_Async`, is a variation of `TowerStrobes`.  The difference is that the Async version allows the two strobe effects (day and night) to run on separate timings, usually at slightly different rates for realism; the non-Async version runs both strobes at the same rate.
 
 ## LighthouseBeacon ##
 This sketch will be used to create the "rotating" beacon at the top of a lighthouse.  The lighthouse itself is an N-scale (1:160 scale) model which was designed to hold a simple grain-of-rice incandescent bulb with no driving electronics.  I plan to replace that bulb with a small 3D-printed piece which will have 12 white [Pico LEDs](https://evandesigns.com/products/chip-nano-pico-leds?variant=39985935646768) from [Evan Designs](https://evandesigns.com/) (Fort Collins, Colorado, USA) mounted around its tip.
@@ -64,3 +64,7 @@ The `TowerStrobes` sketch depends on the following libraries.
 * [FadeLED](https://github.com/twrackers/FadeLED-library) (in my GitHub)
 * [StateMachine](https://github.com/twrackers/StateMachine-library) (in my GitHub)
 
+## TowerStrobes_Async ##
+This sketch is an alternate version of `TowerStrobes` which supports setting the strobe rates of the day and night light cycles to different values, with the two running independently of each other.  This adds some more realism to the light effects, since on a real building the day and night warning lights would be independent.  There is also a short period where neither strobe flashes when switching between day and night modes.
+
+Other than this asynchronous behavior, all of the information above for `TowerStrobes` applies to `TowerStrobes_Async` as well.

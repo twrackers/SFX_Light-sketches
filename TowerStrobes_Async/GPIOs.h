@@ -8,8 +8,8 @@
 #define ACTIVE_LOW false
 
 // Board selection, uncomment one line
-#define ARDUINO_UNO
-//#define ADAFRUIT_GEMMA_V2
+//#define ARDUINO_UNO
+#define ADAFRUIT_GEMMA_V2
 
 // ---------- Definitions ----------
 

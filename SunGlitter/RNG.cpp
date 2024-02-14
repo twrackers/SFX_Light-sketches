@@ -43,7 +43,7 @@ uint32_t RNG::random(const uint32_t mx) {
   return this->random() % mx;
 }
 
-// Return random value between minimum (includive) and maximum (exclusive)
+// Return random value between minimum (inclusive) and maximum (exclusive)
 uint32_t RNG::random(const uint32_t mn, const uint32_t mx) {
   return this->random() % (mx - mn) + mn;
 }

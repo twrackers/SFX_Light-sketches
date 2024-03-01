@@ -7,7 +7,7 @@
 
 // Strobe periods (msec)
 #define PERIOD_DAY 1500
-#define PERIOD_NIGHT 1800
+#define PERIOD_NIGHT 1600
 #define CHANGE_INTERVAL 1500
 
 // Day and night strobes can have different rates.

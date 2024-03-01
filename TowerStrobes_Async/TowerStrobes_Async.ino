@@ -16,7 +16,7 @@ StateMachine pacer_night(PERIOD_NIGHT, true);
 
 // The actual strobe objects.
 DayStrobe day_strobe;
-NightStrobe night_strobe;
+NightStrobe night_strobe(PERIOD_NIGHT);
 
 // Updated when changing between day and night,
 // to pause both strobes briefly.

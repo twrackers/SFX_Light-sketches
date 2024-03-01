@@ -7,7 +7,7 @@ At this time four sketches have been uploaded.  The first two below use Adafruit
 ## LighthouseBeacon ##
 This sketch will be used to create the "rotating" beacon at the top of a lighthouse.  The lighthouse itself is an N-scale (1:160 scale) model which was designed to hold a simple grain-of-rice incandescent bulb with no driving electronics.  I plan to replace that bulb with a small 3D-printed piece which will have 12 white [Nano LEDs](https://evandesigns.com/products/chip-nano-pico-leds?variant=39985935646768) from [Evan Designs](https://evandesigns.com/) (Fort Collins, Colorado, USA) mounted around its tip.
 
-The LEDs are 1.6 mm long, which in N scale would make them equivalent to lights of 240 mm or about 10 inches tall.  The twelve LEDs will be arranged around the printed part facing outwards 30 degrees apart.
+The LEDs are 1.6 mm long, which in N scale would make them equivalent to lights of 256 mm or about 10 inches tall.  The twelve LEDs will be arranged around the printed part facing outwards 30 degrees apart.
 
 The LEDs have thin wires, about 36 gauge, which reach to the base of the model using 2-conductor extensions.  In the base will be an [Adafruit 12-channel 16-bit PWM LED Driver](https://www.adafruit.com/product/1455), connected via SPI to an Itsy Bitsy 32u4 board.
 

@@ -5,12 +5,12 @@
 #include "Glint.h"
 #include "RNG.h"
 
-// GPIO pins are defined for Adafruit Itsy Bitsy 32u4.
+// GPIO pins are defined for Adafruit Metro Mini.
 // Adafruit TLC5947 doesn't appear to be compatible with Arduino
 // hardware SPI, so bit-banging library must be used instead.
-#define DATA_PIN 5
-#define CLOCK_PIN 7
-#define LATCH_PIN 9
+#define DATA_PIN 4
+#define CLOCK_PIN 5
+#define LATCH_PIN 6
 
 // Number of 24-channel PWM drivers daisy-chained
 #define NUM_TLC5947 1
@@ -36,14 +36,21 @@ void setup() {
   rand_pwm.seed(find_random_prime(0x10000));
   rand_magn.seed(find_random_prime(0x10000));
 
+  // Initialize TLC5947 device.
+  pinMode(LED_BUILTIN, OUTPUT);
+  if (!tlc.begin()) {
+    digitalWrite(LED_BUILTIN, HIGH);
+    while (true) delay(10);
+  }
+  tlc.write();
+
+  // Associate `Glint` class with TLC5947 device.
+  Glint::begin(&tlc);
+
   // Create `Glint` object for each LED connected to a PWM channel.
   for (byte pin = 0; pin < NUM_PWM; ++pin) {
-    pwm_chans[pin] = new Glint(&tlc, pin);
+    pwm_chans[pin] = new Glint(pin);
   }
-
-  // Initialize TLC5947 device.
-  tlc.begin();
-  tlc.write();
   
 }
 
@@ -71,14 +78,16 @@ StateMachine out_pacer(25, REAL_TIME);
 Pulse activ(LED_BUILTIN, 5);
 
 void loop() {
+
+  const uint32_t RAND_PWM_RANGE = PERIOD * NUM_PWM;
   
   if (pwm_pacer.update()) {
     // Try to choose a random PWM channel.
-    int which = rand_pwm.random(PERIOD * NUM_PWM);
+    int which = rand_pwm.random(RAND_PWM_RANGE);
     // If an existing PWM channel is chosen...
     if (which < NUM_PWM) {
       // ... trigger lighting cycle for that channel.
-      // Amplitude of PWM flash will be random, from <10%
+      // Amplitude of PWM flash will be random, from about 3%
       // to 100% full-on.
       uint32_t magn = rand_magn.random(MMIN, MMAX + 1);
       pwm_chans[which]->trigger(pow((double) magn / (double) MMAX, 5.0));
@@ -88,7 +97,7 @@ void loop() {
   }
 
   // Update LED_BUILTIN flasher.
-  activ.update();  
+  activ.update();
   
   // Update output values for all PWM chanels.
   StateMachine::updateAll(pwm_chans, NUM_PWM);
@@ -99,5 +108,5 @@ void loop() {
   if (out_pacer.update()) {
     tlc.write();
   }
-  
+
 }

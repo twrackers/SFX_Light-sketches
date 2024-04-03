@@ -4,6 +4,7 @@
 #include <Adafruit_TLC5947.h>
 
 #include <OneShot.h>
+
 #include <FadeLED_Func.h>
 
 // `Glint` object IS A `OneShot` (inherits methods).
@@ -11,12 +12,17 @@
 class Glint : public OneShot {
 
   private:
-    FadeLED_Func* m_fader;  // (pointer to) LED fader
-    double m_magn;          // flash magnitude during cycle
+    FadeLED_Func* m_fader;      // (pointer to) LED fader
+    double m_magn;              // flash magnitude during cycle
+    byte m_chan;                // PWM channel (0 to 23)
 
   public:
+    // Static method
+    static void begin(Adafruit_TLC5947* device);
+    
     // Constructor
-    Glint(Adafruit_TLC5947* device, const uint16_t pin);
+    Glint(const byte chan);
+    
     // Overrides of inherited methods
     virtual bool update();
     void trigger(const double magn);

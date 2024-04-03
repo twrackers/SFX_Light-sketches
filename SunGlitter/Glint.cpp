@@ -6,6 +6,7 @@
 
 static Adafruit_TLC5947* sm_device = NULL;
 
+// Class initialization
 void Glint::begin(Adafruit_TLC5947* device) {
   sm_device = device;
 }
@@ -26,11 +27,15 @@ bool Glint::update() {
 
   // Time to update fader object?
   if (m_fader->update()) {
+    
     // Get normalized fader output.
     double val = m_fader->get();
+    
     // Write adjusted value to TLC device.
+    // Squaring the normalized value will sharpen the light glint.
     sm_device->setPWM(m_chan, (uint16_t) (val * val * m_magn));
     updated = true;
+    
   }
   
   // Time to update parent object?

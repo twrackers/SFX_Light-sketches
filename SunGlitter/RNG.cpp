@@ -28,7 +28,7 @@ uint32_t lcg_parkmiller(uint32_t* state) {
 RNG::RNG() {
 }
 
-// Seed the generator
+// Seed the generator, preferably with a prime value
 void RNG::seed(const uint32_t x) {
   m_state = x;  
 }

@@ -44,7 +44,7 @@ void setup() {
   }
   tlc.write();
 
-  // Associate `Glint` class with TLC5947 device.
+  // Associate TLC5947 device with `Glint` class.
   Glint::begin(&tlc);
 
   // Create `Glint` object for each LED connected to a PWM channel.

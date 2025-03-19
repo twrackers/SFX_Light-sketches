@@ -7,11 +7,11 @@
 #include "GPIOs.h"
 
 // Night turn-on time (msec)
-#define NIGHT_RAMP_UP 300
+#define NIGHT_RAMP_UP_TIME 300
 // Night full-on time (msec)
-#define NIGHT_FULL_ON 600
+#define NIGHT_FULL_ON_TIME 600
 // Night turn-off time (msec)
-#define NIGHT_RAMP_DOWN 500
+#define NIGHT_RAMP_DOWN_TIME 500
 
 class NightStrobe : public OneShot {
 
@@ -20,9 +20,9 @@ class NightStrobe : public OneShot {
 
   public:
 
-    NightStrobe() : OneShot(NIGHT_RAMP_UP + NIGHT_FULL_ON, false) {
+    NightStrobe() : OneShot(NIGHT_RAMP_UP_TIME + NIGHT_FULL_ON_TIME, false) {
       m_led = new FadeLED_Lin(NIGHT_STROBE,
-                              NIGHT_RAMP_UP, NIGHT_RAMP_DOWN,
+                              NIGHT_RAMP_UP_TIME, NIGHT_RAMP_DOWN_TIME,
                               ACTIVE_LOW);
     }
 

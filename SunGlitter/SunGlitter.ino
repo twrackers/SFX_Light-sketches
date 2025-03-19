@@ -97,7 +97,7 @@ void loop() {
     
     // If an existing PWM channel is chosen...
     if (which < NUM_PWM) {
-      
+
       // ... trigger lighting cycle for that channel.
       // Amplitude of PWM flash will be random, from about 3%
       // to 100% full-on.

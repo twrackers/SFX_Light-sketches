@@ -8,8 +8,8 @@
 #define ACTIVE_LOW false
 
 // Board selection, uncomment one line
-#define ARDUINO_UNO
-//#define ADAFRUIT_GEMMA_V2
+//#define ARDUINO_UNO
+#define GEMMA
 
 // ---------- Definitions ----------
 
@@ -30,7 +30,7 @@
   // Night strobe (red LED, PWM output)
   #define NIGHT_STROBE 10
   
-#elif defined(ADAFRUIT_GEMMA_V2)
+#elif defined(GEMMA)
 
   // Mode select pin (digital input), LOW = night, HIGH = day
   #define SELECT 2

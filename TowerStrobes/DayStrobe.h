@@ -5,14 +5,14 @@
 
 #include "GPIOs.h"
 
-// Day strobe on time (msec)
-#define DAY_ON 10
+// Day strobe-on time (msec)
+#define DAY_ON_TIME 10
 
 class DayStrobe : public Pulse {
 
   public:
   
-    DayStrobe() : Pulse(DAY_STROBE, LIGHT_ON, DAY_ON) {
+    DayStrobe() : Pulse(DAY_STROBE, LIGHT_ON, DAY_ON_TIME) {
     }
     
 };
